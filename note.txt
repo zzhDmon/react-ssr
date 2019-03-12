@@ -1,0 +1,21 @@
+安装：
+    npm i memory-fs -D 内存读写
+    npm i http-proxy-middlware -D express的中间件用于做代理
+文件夹说明   
+    build:配置文件 webpack的config文件 工程脚本文件
+    client：前端应用文件
+    server: node.js的服务
+
+babel-loader：webpack的一个插件
+babel-core：babel核心代码
+.babelrc文件 
+    presets：识别哪些语言
+    plugins：react-hot-loader/babel(热更新的模块)
+
+React服务端渲染：
+    react-dom的render哭护短渲染
+    react-dom/server提供服务端渲染
+
+webpack常用配置
+    webpack dev server提供服务端渲染
+    Hot module replacement 模块免刷新热替换
