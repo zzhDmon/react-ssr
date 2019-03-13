@@ -1,43 +1,26 @@
 const path = require('path')
 const webpack = require('webpack')
+const webpackMerge = require('webpack-merge')
+const baseConfig = require('./webpack.base')
 const HTMLPlugin = require('html-webpack-plugin')
 // 是否开发环境
 const isDev = process.env.NODE_ENV === 'development'
 
-const config = {
+const config = webpackMerge(baseConfig,{
     entry: {
         app: path.join(__dirname, '../client/app.js')
     },
     output: {
         filename: '[name].[hash].js',
-        path: path.join(__dirname, '../dist'),
-        // 加在html引用路径前面
-        // 配置cdn 在这加cdn前缀
-        // 最后面的 / 加上，否则影响hot-module-replacement功能
-        publicPath: '/public/'
     },
-    module: {
-        rules: [
-            {
-                test: /.jsx$/,
-                loader: 'babel-loader',
-            },
-            {
-                test: /.js$/,
-                loader: 'babel-loader',
-                exclude: [
-                    path.join(__dirname, '../node_modules')
-                ]
-            }
-        ]
-    },
+
     plugins: [
         // 生成html页面 并把entry文件注入
         new HTMLPlugin({
             template: path.join(__dirname, '../client/template.html')
         })
     ]
-}
+})
 
 if (isDev) {
     config.entry = {
@@ -59,6 +42,9 @@ if (isDev) {
         historyApiFallback: {
             // 所有404的请求返回路由页面
             index: '/public/index.html'
+        },
+        proxy: {
+          '/api': 'http://localhost:3333'
         }
     }
     config.plugins.push(new webpack.HotModuleReplacementPlugin())

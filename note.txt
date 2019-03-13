@@ -1,14 +1,14 @@
 安装：
     npm i memory-fs -D 内存读写
     npm i http-proxy-middlware -D express的中间件用于做代理
-文件夹说明   
+文件夹说明
     build:配置文件 webpack的config文件 工程脚本文件
     client：前端应用文件
     server: node.js的服务
 
 babel-loader：webpack的一个插件
 babel-core：babel核心代码
-.babelrc文件 
+.babelrc文件
     presets：识别哪些语言
     plugins：react-hot-loader/babel(热更新的模块)
 
@@ -19,3 +19,34 @@ React服务端渲染：
 webpack常用配置
     webpack dev server提供服务端渲染
     Hot module replacement 模块免刷新热替换
+
+eslint:配置文件
+  {
+      "parser": "babel-eslint",//指定某种工具解析代码
+      "env": {//node下添加环境browser
+          "browser": true, //node下使用 window对象document
+          "es6": true
+      },
+      "parserOptions": {
+        "ecmaFeatures": {//允许装饰器写法
+          "legacyDecorators": true,
+          "experimentalObjectRestSpread": true
+        },
+        "ecmaVersion": 6,
+        "sourceType": "module"
+      },
+      "extends": "airbnb",
+      "rules": {
+          "semi": [0]
+      }
+  }
+
+npm i serve-favicon -S
+  服务端渲染网页icon图标
+git 提交时要遵循eslint规范才能提交
+  npm i husky -D
+  pachage.json文件添加命令脚本
+    "lint": "eslint --ext .js --ext .jsx client/",
+    "precommit": "npm run lint"
+
+//项目目录文件说明

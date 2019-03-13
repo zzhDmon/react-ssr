@@ -1,0 +1,25 @@
+{
+    "parser": "babel-eslint",
+    "env": {
+        "browser": true,
+        "es6": true,
+        "node": true
+    },
+    "parserOptions": {
+      "ecmaFeatures": {
+        "legacyDecorators": true,
+        "experimentalObjectRestSpread": true
+      },
+      "ecmaVersion": 6,
+      "sourceType": "module"
+    },
+    "extends": "airbnb",
+    "rules": {
+        "semi": [0],
+        "react/jsx-filename-extension": [0],
+        "arrow-body-style": [0],
+        "lines-between-class-members": [0],
+        "react/destructuring-assignment": [0],
+        "react/require-default-props": [0]
+    }
+}
