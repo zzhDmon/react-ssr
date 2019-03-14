@@ -3,10 +3,22 @@ import ReactDom from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'mobx-react'
 import { AppContainer } from 'react-hot-loader' // eslint-disable-line
-import App from './views/App'
-import appState from './store/app-state'
 
-// ReactDom.hydrate(<App/>,document.getElementById('root'))
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core'
+import purple from '@material-ui/core/colors/purple'
+import red from '@material-ui/core/colors/red'
+
+import App from './views/App'
+import AppState from './store/app-state'
+
+const theme = createMuiTheme({
+  palette: {
+    primary: purple,
+    accent: red,
+    type: 'light',
+  },
+})
+
 const root = document.getElementById('root')
 const render = (Component) => {
   const renderMethod = module.hot ? ReactDom.render : ReactDom.hydrate;
@@ -15,9 +27,11 @@ const render = (Component) => {
   // Warning: Expected server HTML to contain a matching <div> in <div>.
   renderMethod(
     <AppContainer>
-      <Provider appState={appState}>
+      <Provider appState={new AppState()}>
         <BrowserRouter>
-          <Component />
+          <MuiThemeProvider theme={theme}>
+            <Component />
+          </MuiThemeProvider>
         </BrowserRouter>
       </Provider>
     </AppContainer>,

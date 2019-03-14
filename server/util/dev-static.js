@@ -23,7 +23,7 @@ const mfs = new MemoryFs
 // 运行 监听服务端打包打包
 const serverCompiler = webpack(serverConfig)
 serverCompiler.outputFileSystem = mfs //内存读写
-let serverBundle
+let serverBundle, createStoreMap
 serverCompiler.watch({}, (err,stats) => {
     if (err) throw err
     stats = stats.toJson()
@@ -39,18 +39,28 @@ serverCompiler.watch({}, (err,stats) => {
     const m = new Module() //生成module 用module读取内容
     m._compile(bundle,'server-entry.js') //指定在内存中的文件名
     serverBundle = m.exports.default
+    console.log('-----------1----------')
+    console.log(m.exports)
+    console.log('-----------2----------')
+    console.log(m.exports.createStoreMap)
+    createStoreMap = m.createStoreMap
 })
 
 module.exports = function (app) {
-    // app.use('/public', express.static(path.join(__dirname, '../dist')))
-    app.use('./public',proxy({
-        target: 'http://localhost:8888'
-    }))
-    app.get('*', function(req, res) {
-        getTemplate().then(template => {
-            const content = ReactDomServer.renderToString(serverBundle)
-            res.send(template.replace('<!-- app -->',content))
-        })
-    })
+  // app.use('/public', express.static(path.join(__dirname, '../dist')))
+  app.use('./public',proxy({
+      target: 'http://localhost:8888'
+  }))
+  app.get('*', function(req, res) {
+    getTemplate().then(template => {
+      console.log('-----------3----------')
+      console.log(createStoreMap)
+      // const routerContext = {}
+      // const app = serverBundle(createStoreMap(), routerContext, req.url)
 
+      // const content = ReactDomServer.renderToString(app)
+      const content = ReactDomServer.renderToString(serverBundle)
+      res.send(template.replace('<!-- app -->',content))
+    })
+  })
 }

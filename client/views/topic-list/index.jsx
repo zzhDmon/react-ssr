@@ -3,8 +3,9 @@ import {
   inject,
   observer,
 } from 'mobx-react'
+import Button from '@material-ui/core/Button'
 import PropTypes from 'prop-types'
-import { AppState } from '../../store/app-state'
+import AppState from '../../store/app-state'
 
 @inject('appState') @observer
 export default class TopicList extends React.Component {
@@ -13,7 +14,6 @@ export default class TopicList extends React.Component {
     this.msg = ''
   }
   componentDidMount() {
-    // do something
     // console.log(this.props.appState)
     const { appState } = this.props
     this.msg = appState.msg
@@ -21,7 +21,11 @@ export default class TopicList extends React.Component {
 
   render() {
     return (
-      <div>{this.props.appState.msg}</div>
+      <div>
+        <Button variant="contained" color="primary">
+          {this.props.appState.msg}
+        </Button>
+      </div>
     )
   }
 }

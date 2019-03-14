@@ -11,7 +11,7 @@ const isDev = process.env.NODE_ENV === 'development'
 
 
 const app = express()
-
+// 拿到post请求数据
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 
@@ -26,7 +26,9 @@ app.use(session({
 app.use(favicon(path.join(__dirname, '../favicon.ico')))
 
 app.use('/api/user', require('./util/handle-login'))
-// app.use('/api', require('./util/proxy'))
+// app.use(/^\/api\/user$/, require('./util/handle-login'))
+// app.use('/api', require('./util/handle-login'))
+app.use('/api', require('./util/proxy'))
 
 if(!isDev){
     // webpack  libraryTarget: 'commonjs2'
